@@ -131,22 +131,6 @@ módulo não adivinha.
 
 ---
 
-## Sobre o desenvolvimento
-
-Este módulo foi construído **com ajuda de IA**, e isso está dito aqui porque é a
-verdade do processo.
-
-O que importa é o que veio depois. As regras foram conferidas contra o texto do
-livro, e cada decisão de implementação contra o **código-fonte do sistema
-`tormenta20`** — não por dedução. Quando o módulo precisa somar um bônus numa
-perícia ou descontar um PM, o caminho foi lido no código do sistema. Boa parte
-dos ajustes nasceu de alguém abrindo a ficha e dizendo o que estava ruim.
-
-Todo o código — funções, variáveis, comentários — é escrito em **português do
-Brasil**.
-
----
-
 ## Solução de problemas
 
 | Sintoma | Causa provável |
@@ -157,35 +141,6 @@ Brasil**.
 | A opção do ativo não aparece na rolagem | O teste precisa ser rolado **pela ficha**; um `/r` no chat não enxerga os efeitos |
 | O botão de expandir sumiu | O negócio chegou ao nível máximo configurado no mundo |
 | A ficha abre sem nada | Dê F5. Se persistir, rode `docs/diagnostico.js` no console (F12) |
-
----
-
-## Estrutura
-
-| Pasta | O que é |
-|---|---|
-| `scripts/` | O código: regras, catálogo de ativos, janelas |
-| `templates/`, `styles/`, `lang/` | As telas, o estilo e os textos |
-| `testes/` | Rodam fora do Foundry: `node testes/regras.test.mjs` |
-| [`docs/regras.md`](docs/regras.md) | As regras e as decisões, ativo por ativo |
-
----
-
-## Publicando uma versão
-
-A tag é a fonte da verdade: empurrá-la dispara a Action
-(`.github/workflows/release.yml`), que roda os testes, carimba a versão no
-`module.json`, monta o zip, cria a release no GitHub e registra a versão no
-foundryvtt.com.
-
-```bash
-git tag v0.1.0 && git push origin v0.1.0
-```
-
-O registro no site depende do segredo `FOUNDRY_PACKAGE_TOKEN` (o "Package
-Release Token" da página do pacote). Sem ele, a release do GitHub sai igual e o
-registro fica para fazer à mão. Para ensaiar sem publicar, crie a variável de
-repositório `FOUNDRY_DRY_RUN=true`.
 
 ---
 
