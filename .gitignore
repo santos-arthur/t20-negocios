@@ -1,0 +1,20 @@
+# Material de referência — não versionar (contém marca d'água pessoal)
+*.pdf
+
+# Destino local do deploy
+.foundry-data
+
+# Lixo de sistema operacional / editor
+.DS_Store
+Thumbs.db
+*.swp
+.idea/
+.vscode/
+
+# Dependências (o módulo não usa build, mas por garantia)
+node_modules/
+dist/
+
+
+# Arquivo de deploy local
+deploy.sh

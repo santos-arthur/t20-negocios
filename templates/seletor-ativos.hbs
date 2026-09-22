@@ -1,0 +1,76 @@
+<div class="t20neg-seletor flexcol">
+
+	<div class="t20neg-busca-barra flexrow">
+		<div class="t20neg-campo-busca noflex">
+			<i class="fas fa-magnifying-glass" inert></i>
+			<input type="search" name="busca" value="{{filtro.texto}}"
+			       placeholder="{{localize "T20NEG.BuscarAtivo"}}" />
+		</div>
+		<button type="button" class="t20neg-acao {{#if filtro.soDisponiveis}}t20neg-ligado{{/if}}"
+		        data-action="alternarDisponiveis">
+			<i class="fas {{#if filtro.soDisponiveis}}fa-square-check{{else}}fa-square{{/if}}"></i>
+			{{localize "T20NEG.SoDisponiveis"}}
+		</button>
+	</div>
+
+	<p class="t20neg-aviso">
+		{{#if paraEspionagem}}
+			{{localize "T20NEG.EspionagemExplicacao"}}
+		{{else}}
+			{{localize "T20NEG.SeletorResumo" livres=slotsLivres mostrando=itens.length total=total}}
+		{{/if}}
+	</p>
+
+	<ul class="item-list t20neg-bloco">
+		{{#if semResultado}}
+			<li class="item flexrow t20neg-aviso-linha">
+				<i class="fas fa-magnifying-glass noflex"></i>
+				<span>{{localize "T20NEG.NenhumAtivoEncontrado"}}</span>
+			</li>
+		{{/if}}
+
+		{{#each itens}}
+			<li class="item flexrow t20neg-acordeon {{#if this.aberto}}aberto{{/if}}
+			           {{#unless this.disponivel}}indisponivel{{/unless}}" data-ativo-id="{{this.id}}">
+
+				<div class="item-name flexrow flex2 t20neg-cabeca" data-action="alternarDetalhe"
+				     data-ativo-id="{{this.id}}">
+					<i class="fas fa-chevron-right t20neg-seta noflex"></i>
+					<div class="item-image noflex" style="background-image: url('{{this.icone}}')"></div>
+					<label>{{this.nome}}</label>
+					{{#if this.automatico}}
+						<i class="fas fa-wand-magic-sparkles t20neg-sinal noflex"
+						   data-tooltip="{{localize "T20NEG.MarcaAutoDica"}}"></i>
+					{{/if}}
+				</div>
+
+				<div class="item-controls flexrow">
+					{{#if this.jaTem}}
+						<span class="tag t20neg-estado"><i class="fas fa-check"></i>{{localize "T20NEG.JaContratado"}}</span>
+					{{else if this.disponivel}}
+						<button type="button" class="t20neg-acao" data-action="contratar" data-ativo-id="{{this.id}}">
+							<i class="fas fa-plus"></i>
+							{{#if ../paraEspionagem}}{{localize "T20NEG.BotaoCopiar"}}{{else}}{{localize "T20NEG.BotaoContratar"}}{{/if}}
+						</button>
+					{{else}}
+						<span class="tag alerta t20neg-estado"><i class="fas fa-lock"></i>{{this.requisitos}}</span>
+					{{/if}}
+				</div>
+
+				<div class="item-summary">
+					<p class="t20neg-resumo">{{this.resumo}}</p>
+					<p><label>{{localize "T20NEG.Efeito"}}</label> {{this.efeito}}</p>
+					{{#if this.marcas.length}}
+						<div class="t20neg-marcas">
+							{{#each this.marcas}}
+								<span class="tag {{this.estilo}}"{{#if this.dica}} data-tooltip="{{this.dica}}"{{/if}}>{{#if this.icone}}<i class="fas {{this.icone}}"></i>{{/if}}{{this.texto}}</span>
+							{{/each}}
+						</div>
+					{{/if}}
+				</div>
+			</li>
+		{{/each}}
+	</ul>
+
+	<p class="t20neg-fonte">{{fonte}}</p>
+</div>

@@ -1,0 +1,54 @@
+<div class="t20neg-form t20neg-fundacao">
+
+	<p class="t20neg-fundacao-intro">{{descricao}}</p>
+
+	{{#if caixas.length}}
+		<ul class="t20neg-teste-alvo">
+			{{#each caixas}}
+				<li class="t20neg-alvo-item">
+					<span class="t20neg-alvo-rotulo">{{this.rotulo}}</span>
+					<span class="t20neg-alvo-valor" {{#if this.id}}id="{{this.id}}"{{/if}}>{{this.valor}}</span>
+					{{#if this.nota}}
+						<span class="t20neg-alvo-nota" {{#if this.id}}id="{{this.id}}-nota"{{/if}}>{{this.nota}}</span>
+					{{/if}}
+				</li>
+			{{/each}}
+		</ul>
+	{{/if}}
+
+	{{#if temSistema}}
+		<div class="form-group">
+			<label>{{localize "T20NEG.CampoQuemAdministra"}}</label>
+			<div class="form-fields">
+				<select name="actorId">
+					{{#each atores}}
+						<option value="{{this.id}}" {{#if this.selecionado}}selected{{/if}}>{{this.nome}}</option>
+					{{/each}}
+				</select>
+			</div>
+		</div>
+
+		<div class="form-group">
+			<label>{{localize "T20NEG.CampoPericia"}}</label>
+			<div class="form-fields">
+				<select name="pericia">
+					{{#each pericias}}
+						<option value="{{this.key}}" data-valor="{{this.valor}}"
+						        {{#if this.selecionado}}selected{{/if}}>{{this.label}}</option>
+					{{/each}}
+				</select>
+			</div>
+		</div>
+
+		<p class="hint">{{localize "T20NEG.RolagemPelaFicha"}}</p>
+	{{else}}
+		<p class="hint">{{localize "T20NEG.AvisoSemSistema"}}</p>
+		<input type="hidden" name="actorId" value="" />
+		<input type="hidden" name="pericia" value="" />
+
+		<div class="form-group">
+			<label>{{localize "T20NEG.CampoBonus"}}</label>
+			<div class="form-fields"><input type="number" name="bonus" value="0" /></div>
+		</div>
+	{{/if}}
+</div>

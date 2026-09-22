@@ -1,0 +1,68 @@
+{
+  "id": "t20-negocios",
+  "title": "Negócios — Tormenta 20",
+  "description": "Implementa as regras de Negócios para Tormenta 20: criação, expansão em níveis, catálogo completo de ativos, rendimentos e aplicação automática dos benefícios nos personagens com acesso. Regras de Jornada Heroica - Fim dos Tempos Arco 2: Valkaria.",
+  "version": "0.1.0",
+  "authors": [
+    {
+      "name": "Arthur Vilmar dos Santos",
+      "url": "https://github.com/santos-arthur"
+    }
+  ],
+  "license": "MIT",
+  "url": "https://github.com/santos-arthur/t20-negocios",
+  "readme": "https://github.com/santos-arthur/t20-negocios#readme",
+  "bugs": "https://github.com/santos-arthur/t20-negocios/issues",
+  "changelog": "https://github.com/santos-arthur/t20-negocios/releases",
+  "manifest": "https://github.com/santos-arthur/t20-negocios/releases/latest/download/module.json",
+  "download": "https://github.com/santos-arthur/t20-negocios/releases/download/v0.1.0/module.zip",
+  "compatibility": {
+    "minimum": "14",
+    "verified": "14"
+  },
+  "relationships": {
+    "requires": [],
+    "systems": [
+      {
+        "id": "tormenta20",
+        "type": "system",
+        "compatibility": {
+          "minimum": "1.6"
+        }
+      }
+    ]
+  },
+  "documentTypes": {
+    "Actor": {
+      "negocio": {}
+    }
+  },
+  "esmodules": [
+    "scripts/main.mjs"
+  ],
+  "styles": [
+    "styles/negocios.css"
+  ],
+  "languages": [
+    {
+      "lang": "pt-BR",
+      "name": "Português (Brasil)",
+      "path": "lang/pt-BR.json"
+    }
+  ],
+  "socket": true,
+  "flags": {
+    "hotReload": {
+      "extensions": [
+        "css",
+        "hbs",
+        "json"
+      ],
+      "paths": [
+        "styles",
+        "templates",
+        "lang"
+      ]
+    }
+  }
+}

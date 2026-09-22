@@ -1,0 +1,23 @@
+<div class="t20neg-card {{#if desfecho}}t20neg-card-{{desfecho}}{{/if}}">
+  <header class="t20neg-card-topo">
+    {{#if negocio.img}}<img src="{{negocio.img}}" alt="" />{{/if}}
+    <div>
+      <h3>{{titulo}}</h3>
+      {{#if negocio.nivel}}
+        <span class="t20neg-card-sub">{{negocio.nome}} · {{localize "T20NEG.NivelAbrev"}} {{negocio.nivel}}</span>
+      {{/if}}
+    </div>
+  </header>
+
+  {{#if texto}}<p class="t20neg-card-texto">{{texto}}</p>{{/if}}
+
+  {{#if linhas.length}}
+    <dl class="t20neg-card-linhas">
+      {{#each linhas}}
+        <div><dt>{{this.rotulo}}</dt><dd>{{this.valor}}</dd></div>
+      {{/each}}
+    </dl>
+  {{/if}}
+
+  <footer class="t20neg-card-fonte">{{fonte}}</footer>
+</div>

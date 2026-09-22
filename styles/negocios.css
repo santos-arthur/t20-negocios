@@ -1,0 +1,1408 @@
+/*
+ * Negócios — Tormenta 20
+ *
+ * As janelas do módulo vestem as classes do sistema (`tormenta20 sheet actor`),
+ * então o grosso da aparência — cabeçalho, abas, listas de itens, atributos —
+ * vem do CSS do próprio Tormenta20. O que está aqui é só o que o sistema não
+ * tem, mais os pontos em que ele precisa ser corrigido.
+ *
+ * Sobre a classe repetida na raiz de cada bloco: o sistema usa seletores longos
+ * (`.tormenta20.sheet.actor .item-list .item .item-name .item-image`) que
+ * venceriam os nossos por especificidade e desfariam o layout. Repetir a classe
+ * raiz eleva a especificidade sem mudar o que o seletor casa, e evita espalhar
+ * !important pelo arquivo. O aninhamento mantém isso legível: a repetição
+ * aparece uma vez, no topo de cada bloco.
+ *
+ * A paleta é a do sistema: #eeede0 (groove), #c9c7b8 (listas e divisórias),
+ * #4b4a44 (texto), #191813 (título), #7a7971 (apagado), #782e22 (alerta).
+ */
+
+.t20neg.t20neg.t20neg.t20neg {
+
+	/* -------------------------------------------- */
+	/*  Cabeçalho                                   */
+	/* -------------------------------------------- */
+
+	/* A imagem define a altura; a coluna da direita ocupa exatamente essa
+	   altura e distribui entre si o nome, os números e a identificação. */
+	& .sheet-header {
+		--t20neg-retrato: 162px;
+		/* O sistema fixa `flex: 0 0 100px` aqui, pensando no retrato de 100px
+		   da ficha de personagem. O nosso é maior, e um cabeçalho travado
+		   menor que o próprio conteúdo derrama por cima das abas. */
+		flex: 0 0 auto;
+		gap: 6px;
+		height: auto;
+		margin-bottom: 5px;
+
+		& img.profile {
+			border-right: none;
+			flex: 0 0 var(--t20neg-retrato);
+			height: var(--t20neg-retrato);
+			max-width: var(--t20neg-retrato);
+			object-fit: cover;
+			width: var(--t20neg-retrato);
+		}
+
+		& .header-details {
+			gap: 4px;
+			height: var(--t20neg-retrato);
+			justify-content: space-between;
+			min-width: 0;
+		}
+
+		& .general-information {
+			flex: 0 0 auto;
+			min-height: 42px;
+		}
+
+		/* Maior que o 1.5em da ficha de personagem: aqui o nome do
+		   estabelecimento é o título da janela inteira. */
+		& h1.charname {
+			border-bottom: 2px groove #eeede0;
+			font-size: 2em;
+			line-height: 1.3;
+			margin: 0;
+			width: 100%;
+
+			& input {
+				font-family: var(--font-primary);
+				font-size: inherit;
+				height: auto;
+				width: 100%;
+			}
+		}
+
+		/* Sem rodapé nos atributos: cada caixa é só o rótulo e o valor. */
+		& ul.attributes {
+			flex: 0 0 48px;
+			margin: 0;
+
+			& li.attribute {
+				height: auto;
+
+				& h4.box-title {
+					height: auto;
+					line-height: 1.3;
+					margin: 3px 4px 0;
+					padding-bottom: 4px;
+				}
+
+				& .attribute-value {
+					height: 28px;
+
+					& input {
+						background: transparent;
+						border: none;
+						font-size: var(--font-size-16);
+						height: 26px;
+						text-align: center;
+						width: 100%;
+					}
+
+					& .sep {
+						margin: 0 1px;
+						opacity: 0.5;
+					}
+				}
+			}
+		}
+
+		/* A identificação fica embaixo, abaixo dos números. */
+		& ul.attributes.summary {
+			border-bottom: none;
+			border-top: 2px groove #eeede0;
+			flex: 0 0 46px;
+			height: 46px;
+			margin-top: 6px;
+
+			& > li {
+				align-items: stretch;
+				display: flex;
+				flex: 1;
+				flex-direction: column;
+				gap: 1px;
+				justify-content: center;
+				min-width: 0;
+				padding: 2px 4px;
+
+				& .t20neg-rotulo {
+					color: #7a7971;
+					flex: 0 0 auto;
+					font-size: var(--font-size-11);
+					font-weight: 700;
+					letter-spacing: 0.02em;
+					line-height: 1.2;
+					text-transform: uppercase;
+					white-space: nowrap;
+				}
+
+				& input,
+				& select {
+					background: transparent;
+					border: none;
+					font-size: var(--font-size-13);
+					height: 20px;
+					line-height: 20px;
+					min-width: 0;
+					width: 100%;
+				}
+			}
+		}
+
+		/* O cofre mostra a moeda ao lado do valor editável. */
+		& .t20neg-cofre {
+			gap: 3px;
+
+			& .t20neg-moeda {
+				color: #7a7971;
+				flex: 0 0 auto;
+				font-size: var(--font-size-13);
+			}
+
+			& input {
+				flex: 0 1 auto;
+				text-align: left;
+				width: auto;
+			}
+		}
+	}
+
+	/* -------------------------------------------- */
+	/*  Abas                                        */
+	/* -------------------------------------------- */
+
+	& .tab {
+		display: none;
+	}
+
+	/* O sistema declara `.window-content .tab { height: 100% }`, e 100% da
+	   altura do window-content — que também abriga o cabeçalho e a navegação —
+	   empurra o fim da aba para fora da janela. Como o window-content é
+	   `overflow: hidden`, o que sai não ganha barra de rolagem: some. */
+	& .tab.active {
+		display: flex;
+		flex: 1 1 auto;
+		gap: 4px;
+		height: auto;
+		min-height: 0;
+		overflow-y: auto;
+	}
+
+	& .t20neg-livro,
+	& .t20neg-seletor {
+		flex: 1;
+		min-height: 0;
+		overflow-y: auto;
+	}
+
+	/* -------------------------------------------- */
+	/*  Listas                                      */
+	/* -------------------------------------------- */
+
+	& .item-list {
+
+		/* O sistema esconde o resumo dos itens até o clique; aqui ele é o
+		   conteúdo principal de cada linha, então fica sempre visível. */
+		& .item {
+			align-items: center;
+			flex-wrap: wrap;
+			padding: 2px 0;
+
+			& .item-summary {
+				border-top: 1px solid #c9c7b8;
+				flex: 0 0 100%;
+				line-height: 16px;
+				padding: 0.25em 0.5em 0.4em;
+
+				& p {
+					margin: 0 0 0.25em;
+				}
+
+				& label {
+					font-weight: 700;
+				}
+			}
+
+			& .item-name .item-image {
+				background-size: cover;
+				border-radius: 3px;
+				flex: 0 0 26px;
+				height: 26px;
+				margin-right: 2px;
+
+				/* Ícone de fonte no lugar de imagem, usado pelo registro e
+				   pelas vagas livres. */
+				& > i {
+					align-items: center;
+					color: #7a7971;
+					display: flex;
+					height: 100%;
+					justify-content: center;
+				}
+			}
+		}
+
+		/* O sistema trava `.item-detail` em 70px com `overflow: hidden` e
+		   `white-space: nowrap` — desenhado para colunas curtas de inventário
+		   (peso, quantidade). Aqui as colunas carregam rótulos e valores
+		   inteiros, então a largura acompanha o conteúdo e nada é cortado. */
+		& .item-detail {
+			border-right: none;
+			flex: 0 0 auto;
+			overflow: visible;
+			text-align: right;
+			white-space: normal;
+			word-break: normal;
+		}
+
+		/* Números não quebram no meio. */
+		& .item-detail.t20neg-valor {
+			flex: 0 0 auto;
+			white-space: nowrap;
+		}
+
+		/* Nomes e explicações ocupam a folga e quebram quando precisam. */
+		& .item .item-name {
+			min-width: 0;
+			overflow: visible;
+
+			& label {
+				overflow: visible;
+				white-space: normal;
+			}
+		}
+
+		& .item-controls {
+			flex: 0 0 auto;
+			gap: 6px;
+			padding: 0 4px;
+
+			& .item-control {
+				white-space: nowrap;
+			}
+		}
+
+		/* O sistema esconde os controles de uma linha até o cursor passar por
+		   ela: `.item:not(.item-header):not(:hover) .item-controls` com
+		   `visibility: hidden`. Numa lista de inventário isso limpa a tela, mas
+		   aqui os controles SÃO o conteúdo — "Receber", "Dedicar o mês",
+		   "Sacar" — e um botão que só existe sob o cursor não é encontrável.
+		   As duas formas abaixo cobrem o estado com e sem hover e vencem a
+		   regra do sistema por especificidade. */
+		& .item:not(.item-header) .item-controls,
+		& .item:not(.item-header):not(:hover) .item-controls {
+			visibility: visible;
+		}
+
+		& .item.indisponivel .item-name,
+		& .item.indisponivel .item-summary {
+			opacity: 0.6;
+		}
+	}
+
+	& .item-control.inativo {
+		opacity: 0.35;
+		pointer-events: none;
+	}
+
+	/* -------------------------------------------- */
+	/*  Visão geral                                 */
+	/* -------------------------------------------- */
+
+	& .t20neg-bloco {
+		margin-bottom: 2px;
+	}
+
+	/* Subcabeçalho dentro de um bloco: separa "onde estou" de "o que custa
+	   crescer" sem abrir outra lista. */
+	& .item-header.t20neg-sub {
+		background: rgba(0, 0, 0, 0.04);
+		font-size: var(--font-size-12);
+		font-weight: 700;
+		justify-content: center;
+		text-transform: uppercase;
+	}
+
+	& .t20neg-progresso {
+		gap: 4px;
+		padding: 5px 6px;
+
+		& .t20neg-progresso-topo {
+			align-items: baseline;
+			gap: 6px;
+			width: 100%;
+
+			& label {
+				font-size: var(--font-size-14);
+				font-weight: 700;
+			}
+
+			& .t20neg-porte {
+				color: #7a7971;
+				flex: 1;
+				font-size: var(--font-size-11);
+				text-align: right;
+			}
+
+			& .t20neg-ajuste {
+				display: flex;
+				flex: 0 0 auto;
+				gap: 4px;
+			}
+		}
+	}
+
+	& .t20neg-trilha {
+		display: flex;
+		gap: 3px;
+		width: 100%;
+	}
+
+	& .t20neg-degrau {
+		background: #c9c7b8;
+		border-radius: 2px;
+		flex: 1;
+		height: 8px;
+	}
+
+	& .t20neg-degrau.cheio {
+		background: #782e22;
+	}
+
+	/* Linha de requisito: rótulo à esquerda, número à direita, sem ruído. */
+	& .t20neg-requisito {
+		align-items: baseline;
+		padding: 2px 6px;
+
+		& .item-name {
+			flex: 1 1 auto;
+		}
+
+		& label {
+			font-weight: 400;
+		}
+	}
+
+	& .t20neg-valor {
+		flex: 0 0 auto;
+		font-weight: 700;
+		padding-left: 10px;
+		text-align: right;
+		white-space: nowrap;
+	}
+
+	& .t20neg-destaque {
+		color: #782e22;
+		font-size: var(--font-size-15);
+	}
+
+	& .t20neg-apagado {
+		color: #7a7971;
+		font-weight: 400;
+	}
+
+	& .t20neg-descontos {
+		display: flex;
+		flex: 0 0 auto;
+		flex-wrap: wrap;
+		gap: 3px;
+		justify-content: flex-end;
+	}
+
+	& .t20neg-aviso-linha {
+		align-items: baseline;
+		color: #7a7971;
+		display: flex;
+		font-size: var(--font-size-12);
+		gap: 5px;
+		line-height: 1.35;
+		padding: 4px 6px;
+
+		& > i {
+			flex: 0 0 auto;
+		}
+
+		& > span {
+			flex: 1 1 auto;
+		}
+	}
+
+	& .t20neg-alerta-linha {
+		background: rgba(120, 46, 34, 0.07);
+		color: #782e22;
+	}
+
+	/* O campo de nível no cabeçalho, quando o Mestre pode editá-lo. */
+	& .t20neg-nivel-editavel {
+		text-align: center;
+	}
+
+	/* Cada opção de rendimento: o que é, quanto rende, e o botão que a executa. */
+	& .t20neg-opcao {
+		gap: 6px;
+		padding: 5px 6px;
+
+		& .item-name {
+			flex-direction: column;
+			align-items: flex-start;
+			gap: 1px;
+			min-width: 0;
+		}
+
+		& .item-name > label {
+			font-weight: 700;
+		}
+
+		& .t20neg-explicacao {
+			color: #7a7971;
+			font-size: var(--font-size-11);
+			line-height: 1.3;
+			margin: 0;
+		}
+
+		& .item-controls {
+			flex: 0 0 auto;
+			justify-content: flex-end;
+			min-width: 8.5rem;
+		}
+	}
+
+	& .t20neg-cofre-linha {
+		border-top: 1px solid #c9c7b8;
+	}
+
+	/* O botão que comanda a seção tem mais peso que os demais. */
+	& button.t20neg-acao.t20neg-principal {
+		background: rgba(120, 46, 34, 0.08);
+		border-color: #a8442f;
+		font-size: var(--font-size-14);
+		font-weight: 700;
+		line-height: 30px;
+	}
+
+	& .t20neg-resumo {
+		color: #4b4a44;
+		font-style: italic;
+	}
+
+	/* -------------------------------------------- */
+	/*  Acordeão de ativos                          */
+	/* -------------------------------------------- */
+
+	/* `.item-list .item` também define padding, com especificidade maior que um
+	   seletor de classe só — daí o `.item` aqui no meio, que zerava o recuo
+	   lateral e deixava a seta encostada na borda do bloco. */
+	& .item.t20neg-acordeon {
+		align-items: center;
+		border-radius: 4px;
+		/* O mesmo recuo aberto e fechado: se o padding mudasse com o estado, o
+		   conteúdo da linha escorregaria a cada clique. */
+		padding: 5px 8px;
+
+		/* O fio separa duas linhas fechadas. Quando uma delas abre, quem separa
+		   é a margem e o fundo do bloco aberto — o fio ali encostaria no
+		   cabeçalho da lista. */
+		& + .t20neg-acordeon:not(.aberto) {
+			border-top: 1px solid rgba(201, 199, 184, 0.6);
+		}
+
+		&.aberto + .t20neg-acordeon:not(.aberto) {
+			border-top: none;
+		}
+
+		& .t20neg-cabeca {
+			align-items: center;
+			cursor: pointer;
+			gap: 8px;
+			min-width: 0;
+			padding: 2px 0;
+
+			&:hover label {
+				color: #782e22;
+			}
+
+			& label {
+				cursor: pointer;
+				font-weight: 700;
+				min-width: 0;
+			}
+		}
+
+		& .t20neg-seta {
+			color: #7a7971;
+			font-size: var(--font-size-11);
+			transition: transform 120ms ease;
+			width: 10px;
+		}
+
+		/* Os detalhes ficam guardados até alguém abrir a linha. */
+		& .item-summary {
+			display: none;
+		}
+
+		/* Um bloco aberto se destaca dos vizinhos pelo fundo e pela margem. Sem
+		   borda e sem mudar o recuo: qualquer uma das duas coisas empurraria o
+		   conteúdo ao abrir. */
+		&.aberto {
+			background: rgba(0, 0, 0, 0.04);
+			margin: 6px 0;
+
+			& .t20neg-seta {
+				transform: rotate(90deg);
+			}
+
+			& .item-summary {
+				display: block;
+			}
+		}
+
+		& .item-summary {
+			line-height: 1.45;
+			margin-top: 4px;
+			padding: 7px 9px 8px;
+		}
+
+		& .item-summary p {
+			margin: 0 0 0.45em;
+		}
+
+		& .item-summary p:last-of-type {
+			margin-bottom: 0;
+		}
+
+		& .t20neg-marcas {
+			margin-top: 7px;
+		}
+	}
+
+	/* Etiqueta do nível em que a vaga abriu. */
+	& .t20neg-vaga-nivel {
+		background: rgba(0, 0, 0, 0.05);
+		border: 1px solid #c9c7b8;
+		border-radius: 3px;
+		color: #4b4a44;
+		font-size: var(--font-size-10);
+		font-weight: 700;
+		letter-spacing: 0.02em;
+		line-height: 1.6;
+		min-width: 2.6rem;
+		padding: 0 5px;
+		text-align: center;
+		text-transform: uppercase;
+		white-space: nowrap;
+	}
+
+	& .t20neg-usos-col {
+		font-weight: 700;
+		text-align: center;
+	}
+
+	& .t20neg-escolha-linha {
+		color: #191813;
+		margin: 3px 0 0;
+
+		& label {
+			color: #191813;
+			font-weight: 700;
+		}
+	}
+
+	& .t20neg-beneficios .t20neg-escolha-linha {
+		font-size: var(--font-size-12);
+		margin: 2px 0 0;
+	}
+
+	/* -------------------------------------------- */
+	/*  Registro                                    */
+	/* -------------------------------------------- */
+
+	/* As três somas do negócio, no formato das caixas de atributo. */
+	& ul.attributes.t20neg-balanco {
+		flex: 0 0 46px;
+		margin: 0 0 6px;
+
+		& li.attribute {
+			height: auto;
+		}
+
+		& h4.box-title {
+			height: auto;
+			line-height: 1.3;
+			margin: 3px 4px 0;
+			padding-bottom: 3px;
+		}
+
+		& .attribute-value {
+			font-size: var(--font-size-14);
+			height: 24px;
+		}
+	}
+
+	/* Cabeçalho de cada dia, separando as sessões. */
+	& .t20neg-dia {
+		justify-content: space-between;
+		padding: 3px 8px;
+
+		& .t20neg-dia-saldo {
+			font-weight: 700;
+			opacity: 0.75;
+		}
+	}
+
+	& .t20neg-evento {
+		padding: 3px 8px;
+
+		& .item-image {
+			flex: 0 0 18px;
+			height: 18px;
+		}
+
+		& label {
+			font-weight: 400;
+		}
+	}
+
+	/* Transferências têm cor própria, em tons dessaturados: dá para ver o
+	   sentido do dinheiro sem confundir com o verde e o vermelho do resultado
+	   do negócio, que são vivos. */
+	& .t20neg-deposito {
+		color: #4a7c59;
+	}
+
+	& .t20neg-saque {
+		color: #a06a3c;
+	}
+
+	/* Coluna do valor com largura própria: sem ela, cada linha empurraria a
+	   hora para uma posição diferente. */
+	& .t20neg-valor-registro {
+		flex: 0 0 5.5rem;
+	}
+
+	& .t20neg-hora {
+		color: #7a7971;
+		flex: 0 0 3rem;
+		font-size: var(--font-size-11);
+		padding-left: 8px;
+		text-align: right;
+	}
+
+	/* Eventos que não deram certo ficam apagados. */
+	& .t20neg-evento-expansao-falha {
+		opacity: 0.6;
+	}
+
+	/* -------------------------------------------- */
+	/*  Tela de Negócios                            */
+	/* -------------------------------------------- */
+
+	/* Resumo do negócio em pares rótulo/valor, alinhados numa coluna só. */
+	& .t20neg-ficha-resumo {
+		display: grid;
+		gap: 2px 12px;
+		grid-template-columns: repeat(auto-fit, minmax(13rem, 1fr));
+		margin: 0 0 8px;
+
+		& > div {
+			display: flex;
+			gap: 8px;
+		}
+
+		& dt {
+			color: #7a7971;
+			flex: 0 0 7rem;
+			font-size: var(--font-size-12);
+			/* O core sombreia todo `dl dt`, pensando em fundo escuro. */
+			text-shadow: none;
+		}
+
+		& dd {
+			flex: 1 1 auto;
+			margin: 0;
+			min-width: 0;
+		}
+	}
+
+	& .t20neg-ativos-titulo {
+		align-items: baseline;
+		display: flex;
+		gap: 8px;
+		margin: 0 0 4px;
+	}
+
+	& .t20neg-nenhum {
+		align-items: center;
+		gap: 6px;
+		padding: 24px 16px;
+		text-align: center;
+
+		& i {
+			color: #7a7971;
+			font-size: 2rem;
+			opacity: 0.5;
+		}
+
+		& p {
+			color: #7a7971;
+			margin: 0;
+			max-width: 26rem;
+		}
+	}
+
+	& .t20neg-excluir:hover {
+		color: #782e22;
+	}
+
+	/* Vaga de ativo ainda não preenchida. */
+	& .t20neg-vaga {
+		cursor: pointer;
+		opacity: 0.55;
+		padding: 6px 2px;
+
+		&:hover {
+			opacity: 1;
+		}
+
+		& .item-name {
+			align-items: center;
+			gap: 8px;
+		}
+
+		& label {
+			cursor: pointer;
+			font-style: italic;
+		}
+	}
+
+	/* -------------------------------------------- */
+	/*  Ações principais                            */
+	/* -------------------------------------------- */
+
+	/* A ficha de Bases do sistema põe suas ações num footer com botão rotulado,
+	   e não num ícone no canto. Vale o mesmo aqui: expandir o negócio e apurar
+	   o rendimento são o que se vem fazer na ficha. */
+	& .t20neg-rodape {
+		display: flex;
+		flex: 0 0 auto;
+		flex-wrap: wrap;
+		gap: 5px;
+		margin: 0 0 5px;
+	}
+
+	& button.t20neg-acao {
+		align-items: center;
+		background: rgba(255, 255, 240, 0.8);
+		border: 2px groove #eeede0;
+		border-radius: 4px;
+		color: #191813;
+		display: flex;
+		flex: 1 1 auto;
+		font-family: var(--font-primary);
+		font-size: var(--font-size-13);
+		gap: 5px;
+		justify-content: center;
+		line-height: 26px;
+		padding: 0 8px;
+		white-space: nowrap;
+		width: auto;
+
+		&:hover:not(:disabled) {
+			border-color: #782e22;
+			box-shadow: 0 0 4px rgba(120, 46, 34, 0.35);
+		}
+
+		&:disabled {
+			color: #7a7971;
+			cursor: not-allowed;
+			opacity: 0.6;
+		}
+	}
+
+	& .item-controls button.t20neg-acao {
+		flex: 0 0 auto;
+		line-height: 22px;
+		/* Sem isto, um nome de ativo comprido espreme o botão até ele sumir. */
+		min-width: max-content;
+	}
+
+	/* -------------------------------------------- */
+	/*  Marcas e valores                            */
+	/* -------------------------------------------- */
+
+	& .t20neg-marcas {
+		display: flex;
+		flex-wrap: wrap;
+		gap: 4px;
+		margin-top: 3px;
+	}
+
+	/* O sistema dá `padding: 0 3px` e `line-height: 16px` às etiquetas, apertado
+	   demais quando elas carregam ícone e frase inteira — o ícone encosta na
+	   borda. Aqui elas respiram, e o ícone fica separado do texto. */
+	& .tag {
+		align-items: center;
+		display: inline-flex;
+		gap: 6px;
+		justify-content: center;
+		line-height: 1.4;
+		margin: 0;
+		padding: 3px 9px;
+
+		& i {
+			flex: 0 0 auto;
+			font-size: 0.9em;
+			line-height: inherit;
+		}
+
+		/* Etiqueta que é só ícone não precisa de espaço interno lateral. */
+		& i:only-child {
+			margin: 0;
+		}
+	}
+
+	& .tag.ativo {
+		background: rgba(0, 108, 0, 0.08);
+		border-color: #006c00;
+		color: #006c00;
+	}
+
+	& .tag.alerta {
+		background: rgba(120, 46, 34, 0.08);
+		border-color: #782e22;
+		color: #782e22;
+	}
+
+	& .t20neg-positivo {
+		color: #006c00;
+		font-weight: 700;
+	}
+
+	& .t20neg-negativo {
+		color: #782e22;
+		font-weight: 700;
+	}
+
+	& .t20neg-contador {
+		align-items: center;
+		display: flex;
+		gap: 6px;
+		justify-content: center;
+
+		& span {
+			min-width: 1.5em;
+			text-align: center;
+		}
+	}
+
+	/* -------------------------------------------- */
+	/*  Benefícios                                  */
+	/* -------------------------------------------- */
+
+	/* -------------------------------------------- */
+	/*  Benefícios                                  */
+	/* -------------------------------------------- */
+
+	/* Contagem por tipo na linha fechada: dá para ver de relance quanto cada
+	   personagem recebe sem precisar abrir. */
+	& .t20neg-contagem {
+		display: flex;
+		gap: 8px;
+		justify-content: flex-end;
+	}
+
+	& .t20neg-conta {
+		align-items: center;
+		color: #7a7971;
+		display: inline-flex;
+		font-size: var(--font-size-12);
+		font-weight: 700;
+		gap: 4px;
+
+		&.aplicado {
+			color: #006c00;
+		}
+
+		&.apagado {
+			opacity: 0.55;
+		}
+	}
+
+	/* As condições abrem o bloco de detalhes: é o que decide o que vale. */
+	& .t20neg-condicoes-bloco {
+		background: rgba(0, 0, 0, 0.04);
+		border-radius: 4px;
+		margin-bottom: 8px;
+		padding: 6px 8px;
+	}
+
+	/* A explicação vai abaixo do título, não ao lado: é uma frase inteira e
+	   ficava espremida na mesma linha. */
+	& .t20neg-condicoes-titulo {
+		align-items: flex-start;
+		display: flex;
+		flex-direction: column;
+		gap: 1px;
+		margin: 0 0 6px;
+
+		& span {
+			font-size: var(--font-size-11);
+			line-height: 1.35;
+		}
+	}
+
+	& .t20neg-grupo {
+		margin-bottom: 8px;
+
+		&:last-child {
+			margin-bottom: 0;
+		}
+
+		&.aplicado .t20neg-grupo-titulo i {
+			color: #006c00;
+		}
+
+		&.apagado {
+			opacity: 0.65;
+		}
+	}
+
+	& .t20neg-grupo-titulo {
+		align-items: baseline;
+		border-bottom: 1px solid #c9c7b8;
+		display: flex;
+		flex-wrap: wrap;
+		gap: 6px;
+		margin: 0 0 5px;
+		padding-bottom: 3px;
+
+		& i {
+			color: #7a7971;
+		}
+
+		& span {
+			font-size: var(--font-size-11);
+		}
+	}
+
+	& .t20neg-condicoes {
+		display: flex;
+		flex-wrap: wrap;
+		gap: 10px;
+	}
+
+	/* Checkbox nativo, e não o do core.
+	   O core desenha o controle com `appearance: none` e dois pseudo-elementos:
+	   `::before` com o quadrado e, quando marcado, `::after` com o caractere
+	   duplicado da Font Awesome Duotone mais o `::before` reposicionado por
+	   cima. Quando esse empilhamento não resolve, os dois desenhos aparecem
+	   lado a lado — é o "checkbox por baixo". O próprio Foundry volta ao
+	   controle nativo nas janelas antigas (`appearance: revert`); aqui fazemos
+	   o mesmo, desligando os pseudo-elementos junto. */
+	& .t20neg-condicoes .t20neg-condicao {
+		align-items: center;
+		color: #4b4a44;
+		cursor: pointer;
+		display: inline-flex;
+		flex: 0 0 auto;
+		font-size: var(--font-size-12);
+		gap: 6px;
+		line-height: 1.4;
+		margin: 0;
+		padding: 0;
+
+		& input[type="checkbox"] {
+			appearance: auto;
+			-webkit-appearance: auto;
+			accent-color: #782e22;
+			cursor: pointer;
+			flex: 0 0 auto;
+			height: 14px;
+			margin: 0;
+			position: static;
+			top: auto;
+			width: 14px;
+		}
+
+		& input[type="checkbox"]::before,
+		& input[type="checkbox"]::after {
+			content: none;
+			display: none;
+		}
+
+		&:has(input:disabled) {
+			color: #7a7971;
+			cursor: default;
+		}
+	}
+
+	& .t20neg-beneficios {
+		list-style: disc;
+		/* Respiro antes do primeiro item, entre eles e depois do último. */
+		margin: 6px 0;
+		padding-left: 1.2em;
+
+		& li {
+			margin-bottom: 6px;
+		}
+
+		& li:last-child {
+			margin-bottom: 0;
+		}
+
+		&.apagado {
+			color: #7a7971;
+		}
+	}
+
+	/* Seleção do personagem e botão, lado a lado no rodapé. */
+	& .t20neg-dar-acesso {
+		align-items: center;
+		flex-wrap: nowrap;
+
+		& select {
+			flex: 1 1 auto;
+			height: 30px;
+			min-width: 0;
+		}
+
+		& button.t20neg-acao {
+			flex: 0 0 auto;
+			white-space: nowrap;
+		}
+	}
+
+	/* -------------------------------------------- */
+	/*  Anotações, filtros e rodapé                 */
+	/* -------------------------------------------- */
+
+	& .t20neg-anotacoes {
+		margin-top: 4px;
+
+		& textarea {
+			background: rgba(0, 0, 0, 0.03);
+			border: 2px groove #eeede0;
+			border-radius: 4px;
+			font-family: var(--font-primary);
+			font-size: var(--font-size-13);
+			resize: vertical;
+			width: 100%;
+		}
+	}
+
+	/* Barra de busca do seletor de ativos. */
+	& .t20neg-busca-barra {
+		align-items: center;
+		flex: 0 0 auto;
+		gap: 6px;
+		margin-bottom: 6px;
+	}
+
+	& .t20neg-campo-busca {
+		flex: 1 1 auto;
+		position: relative;
+
+		& i {
+			color: #7a7971;
+			left: 7px;
+			pointer-events: none;
+			position: absolute;
+			top: 50%;
+			transform: translateY(-50%);
+		}
+
+		& input[type="search"] {
+			background: rgba(255, 255, 240, 0.6);
+			border: 2px groove #eeede0;
+			border-radius: 4px;
+			height: 28px;
+			padding-left: 24px;
+			width: 100%;
+		}
+	}
+
+	/* Alternador ligado/desligado, com o mesmo corpo dos botões de ação. */
+	& button.t20neg-acao.t20neg-ligado {
+		background: rgba(120, 46, 34, 0.1);
+		border-color: #a8442f;
+		color: #782e22;
+	}
+
+	/* Sinal discreto de que o ativo é aplicado na ficha, no cabeçalho da linha. */
+	& .t20neg-sinal {
+		color: #006c00;
+		font-size: var(--font-size-11);
+	}
+
+	/* Os três estados de um ativo — Contratar, Já contratado, Exige… — ocupam o
+	   mesmo lugar e precisam do mesmo corpo, senão as linhas dançam conforme o
+	   estado de cada um. A coluna tem largura fixa, encosta à direita, e o que
+	   estiver dentro dela a preenche. */
+	& .t20neg-seletor .item-controls {
+		align-items: stretch;
+		flex: 0 0 9.5rem;
+		justify-content: flex-end;
+		min-width: 9.5rem;
+
+		& button.t20neg-acao,
+		& .tag.t20neg-estado {
+			flex: 1 1 auto;
+			margin: 0;
+			min-height: 28px;
+			min-width: 0;
+			width: 100%;
+		}
+
+		& button.t20neg-acao {
+			line-height: 1.25;
+			padding: 3px 8px;
+		}
+	}
+
+	& .tag.t20neg-estado {
+		align-items: center;
+		align-self: stretch;
+		border-radius: 4px;
+		display: flex;
+		font-size: var(--font-size-12);
+		gap: 5px;
+		justify-content: center;
+		line-height: 1.25;
+		min-height: 26px;
+		padding: 3px 8px;
+		text-align: center;
+		white-space: normal;
+		width: 100%;
+
+		& i {
+			flex: 0 0 auto;
+		}
+	}
+
+	& .t20neg-aviso {
+		align-items: baseline;
+		color: #7a7971;
+		display: flex;
+		font-size: var(--font-size-12);
+		gap: 6px;
+		line-height: 1.35;
+		margin: 4px 2px 0;
+
+		& > i {
+			flex: 0 0 auto;
+		}
+	}
+
+	& .t20neg-fonte {
+		color: #7a7971;
+		font-size: var(--font-size-11);
+		font-style: italic;
+		margin: 6px 0 2px;
+		text-align: center;
+	}
+}
+
+/* -------------------------------------------- */
+/*  Diálogos                                    */
+/* -------------------------------------------- */
+
+.t20neg-dialogo.t20neg-dialogo.t20neg-dialogo.t20neg-dialogo {
+
+	& .t20neg-form {
+		display: flex;
+		flex-direction: column;
+		gap: 6px;
+	}
+
+	& .t20neg-teste-alvo {
+		display: flex;
+		gap: 5px;
+		list-style: none;
+		margin: 0;
+		padding: 0;
+	}
+
+	/* As caixas dividem a largura e crescem juntas: a mais alta define a altura
+	   das outras, e a nota fica encostada na base em todas. Sem isso, uma nota
+	   de duas linhas deixa a caixa vizinha mais baixa. */
+	& .t20neg-teste-alvo {
+		align-items: stretch;
+	}
+
+	& .t20neg-alvo-item {
+		border: 2px groove #eeede0;
+		border-radius: 4px;
+		display: flex;
+		flex: 1 1 0;
+		flex-direction: column;
+		min-width: 0;
+		padding: 3px 5px 5px;
+		text-align: center;
+
+		& .t20neg-alvo-valor {
+			flex: 1 1 auto;
+			align-content: center;
+		}
+
+		& .t20neg-alvo-nota {
+			margin-top: auto;
+		}
+	}
+
+	& .t20neg-alvo-rotulo {
+		border-bottom: 1px solid #c9c7b8;
+		color: #4b4a44;
+		display: block;
+		font-size: var(--font-size-12);
+	}
+
+	& .t20neg-alvo-valor {
+		font-size: var(--font-size-18);
+	}
+
+	& .t20neg-teste-bonus {
+		display: grid;
+		gap: 8px;
+		grid-template-columns: 1fr 1fr;
+	}
+
+	/* Rótulo à esquerda, campo ocupando o resto: as linhas do formulário ficam
+	   alinhadas entre si. */
+	& .t20neg-fundacao .form-group {
+		align-items: center;
+		display: flex;
+		flex-direction: row;
+		gap: 8px;
+
+		& > label {
+			flex: 0 0 8rem;
+		}
+
+		& .form-fields {
+			flex: 1 1 auto;
+			min-width: 0;
+		}
+	}
+
+	& .t20neg-alvo-nota {
+		color: #7a7971;
+		display: block;
+		font-size: var(--font-size-10);
+		line-height: 1.25;
+	}
+
+	& .t20neg-fundacao {
+		gap: 8px;
+
+		& hr {
+			border: none;
+			border-top: 2px groove #eeede0;
+			margin: 2px 0;
+		}
+	}
+
+	& .t20neg-fundacao-intro {
+		line-height: 1.45;
+		margin: 0;
+	}
+}
+
+/* -------------------------------------------- */
+/*  Card de chat                                */
+/* -------------------------------------------- */
+
+.t20neg-card.t20neg-card.t20neg-card.t20neg-card {
+	border: 2px groove #eeede0;
+	border-radius: 4px;
+	padding: 4px 6px;
+
+	&.t20neg-card-sucesso {
+		border-left: 3px solid #006c00;
+	}
+
+	&.t20neg-card-falha {
+		border-left: 3px solid #782e22;
+	}
+
+	& .t20neg-card-topo {
+		align-items: center;
+		border-bottom: 1px solid #c9c7b8;
+		display: flex;
+		gap: 6px;
+		padding-bottom: 3px;
+
+		& img {
+			border: none;
+			flex: 0 0 32px;
+			height: 32px;
+			object-fit: cover;
+		}
+
+		& h3 {
+			border: none;
+			font-size: var(--font-size-15);
+			margin: 0;
+		}
+	}
+
+	& .t20neg-card-sub {
+		color: #7a7971;
+		font-size: var(--font-size-11);
+	}
+
+	& .t20neg-card-texto {
+		margin: 4px 0 0;
+	}
+
+	& .t20neg-card-linhas {
+		display: flex;
+		flex-wrap: wrap;
+		gap: 4px;
+		margin: 5px 0 0;
+
+		& > div {
+			border: 2px groove #eeede0;
+			border-radius: 4px;
+			flex: 1 1 70px;
+			padding: 2px;
+			text-align: center;
+		}
+
+		& dt {
+			border-bottom: 1px solid #c9c7b8;
+			color: #4b4a44;
+			font-size: var(--font-size-11);
+			/* O core aplica `text-shadow: 1px 1px #000` em todo `dl dt`, o que
+			   num card claro vira um contorno preto no rótulo. */
+			text-shadow: none;
+		}
+
+		& dd {
+			font-size: var(--font-size-14);
+			font-weight: 700;
+			margin: 0;
+			text-shadow: none;
+		}
+	}
+
+	& .t20neg-card-fonte {
+		color: #7a7971;
+		font-size: var(--font-size-10);
+		font-style: italic;
+		margin-top: 4px;
+		text-align: right;
+	}
+}
+
+/* -------------------------------------------- */
+/*  Atalho no diretório de atores               */
+/* -------------------------------------------- */
+
+/* Nada de largura ou margem aqui: o botão entra na linha de ações do
+   diretório e é dimensionado pelas mesmas regras que os botões do core. */
+.t20neg-atalho.t20neg-atalho {
+	align-items: center;
+	display: flex;
+	gap: 0.25rem;
+	justify-content: center;
+}

@@ -1,0 +1,173 @@
+<div class="tab beneficios flexcol {{#if ativa}}active{{/if}}" data-group="primary" data-tab="beneficios">
+
+	<ul class="item-list t20neg-bloco">
+		<li class="item flexrow item-header">
+			<div class="item-name flex2">{{localize "T20NEG.SecaoBeneficiarios"}}</div>
+			{{#unless aplicando}}
+				<div class="item-detail"><span class="tag alerta">{{localize "T20NEG.EfeitosDesligados"}}</span></div>
+			{{/unless}}
+			<div class="item-controls flexrow">
+				{{#if pessoas.length}}
+					<a class="item-control" data-action="alternarTodos"
+					   data-tooltip="{{#if algumAberto}}{{localize "T20NEG.RecolherTodos"}}{{else}}{{localize "T20NEG.ExpandirTodos"}}{{/if}}">
+						<i class="fas {{#if algumAberto}}fa-compress-alt{{else}}fa-expand-alt{{/if}}"></i>
+					</a>
+				{{/if}}
+				<a class="item-control" data-action="sincronizar"
+				   data-tooltip="{{localize "T20NEG.BotaoSincronizar"}}"><i class="fas fa-arrows-rotate"></i></a>
+			</div>
+		</li>
+
+		{{#if semBeneficiarios}}
+			<li class="item flexcol t20neg-nenhum">
+				<i class="fas fa-users-slash"></i>
+				<p><strong>{{localize "T20NEG.SemBeneficiarios"}}</strong></p>
+				<p>{{localize "T20NEG.SemBeneficiariosDica"}}</p>
+			</li>
+		{{/if}}
+
+		{{#each pessoas}}
+			<li class="item flexrow t20neg-acordeon {{#if this.aberto}}aberto{{/if}}"
+			    data-actor-id="{{this.actorId}}">
+
+				<div class="item-name flexrow flex2 t20neg-cabeca" data-action="alternarPessoa"
+				     data-actor-id="{{this.actorId}}">
+					<i class="fas fa-chevron-right t20neg-seta noflex"></i>
+					<div class="item-image noflex" style="background-image: url('{{this.img}}')"></div>
+					<label>{{this.nome}}</label>
+				</div>
+
+				<div class="item-detail t20neg-contagem">
+					{{#if this.automaticos.length}}
+						<span class="t20neg-conta aplicado"
+						      data-tooltip="{{localize "T20NEG.ContaAplicados" total=this.automaticos.length}}">
+							<i class="fas fa-wand-magic-sparkles"></i>{{this.automaticos.length}}
+						</span>
+					{{/if}}
+					{{#if this.lembretes.length}}
+						<span class="t20neg-conta"
+						      data-tooltip="{{localize "T20NEG.ContaLembretes" total=this.lembretes.length}}">
+							<i class="fas fa-list-check"></i>{{this.lembretes.length}}
+						</span>
+					{{/if}}
+					{{#if this.bloqueados.length}}
+						<span class="t20neg-conta apagado"
+						      data-tooltip="{{localize "T20NEG.ContaBloqueados" total=this.bloqueados.length}}">
+							<i class="fas fa-ban"></i>{{this.bloqueados.length}}
+						</span>
+					{{/if}}
+				</div>
+
+				<div class="item-controls flexrow">
+					{{#unless this.editavelPorMim}}
+						<span class="tag" data-tooltip="{{localize "T20NEG.PrecisaMestreDica"}}"><i class="fas fa-user-shield"></i></span>
+					{{/unless}}
+					<a class="item-control" data-action="abrirAtor" data-actor-id="{{this.actorId}}"
+					   data-tooltip="{{localize "T20NEG.AbrirFicha"}}"><i class="fas fa-address-card"></i></a>
+					{{#if ../editavel}}
+						<a class="item-control t20neg-excluir" data-action="removerBeneficiario"
+						   data-actor-id="{{this.actorId}}"
+						   data-tooltip="{{localize "T20NEG.BotaoTirarAcesso"}}"><i class="fas fa-user-minus"></i></a>
+					{{/if}}
+				</div>
+
+				<div class="item-summary">
+					<div class="t20neg-condicoes-bloco">
+						<p class="t20neg-condicoes-titulo">
+							<label>{{localize "T20NEG.TituloCondicoes"}}</label>
+							<span class="t20neg-apagado">{{localize "T20NEG.CondicaoDica"}}</span>
+						</p>
+						<div class="t20neg-condicoes">
+							{{#each this.condicoes}}
+								<label class="checkbox t20neg-condicao"><input type="checkbox" data-condicao="{{this.chave}}"
+								       data-actor-id="{{../this.actorId}}" {{#if this.marcada}}checked{{/if}}
+								       {{#unless ../../editavel}}disabled{{/unless}} />{{this.label}}</label>
+							{{/each}}
+						</div>
+					</div>
+
+					{{#if this.automaticos.length}}
+						<div class="t20neg-grupo aplicado">
+							<p class="t20neg-grupo-titulo">
+								<i class="fas fa-wand-magic-sparkles"></i>
+								<label>{{localize "T20NEG.BeneficiosAplicados"}}</label>
+								{{#if this.faltaSincronizar}}
+									<span class="tag alerta" data-tooltip="{{localize "T20NEG.FaltaSincronizarDica"}}">
+										<i class="fas fa-triangle-exclamation"></i>{{localize "T20NEG.FaltaSincronizar"}}
+									</span>
+								{{/if}}
+							</p>
+							<ul class="t20neg-beneficios">
+								{{#each this.automaticos}}
+									<li>
+										<label>{{this.nome}}.</label> {{this.efeito}}
+										{{#if this.copiado}}<span class="tag">{{localize "T20NEG.ViaEspionagem"}}</span>{{/if}}
+										{{#if this.temEscolha}}
+											<p class="t20neg-escolha-linha">
+												<label>{{this.rotuloEscolha}}:</label>
+												{{#if this.escolha}}{{this.escolha}}{{else}}{{localize "T20NEG.NaoDefinido"}}{{/if}}
+											</p>
+										{{/if}}
+									</li>
+								{{/each}}
+							</ul>
+						</div>
+					{{/if}}
+
+					{{#if this.lembretes.length}}
+						<div class="t20neg-grupo">
+							<p class="t20neg-grupo-titulo">
+								<i class="fas fa-list-check"></i>
+								<label>{{localize "T20NEG.BeneficiosLembretes"}}</label>
+							</p>
+							<ul class="t20neg-beneficios">
+								{{#each this.lembretes}}
+									<li>
+										<label>{{this.nome}}.</label> {{this.efeito}}
+										{{#if this.copiado}}<span class="tag">{{localize "T20NEG.ViaEspionagem"}}</span>{{/if}}
+										{{#if this.temEscolha}}
+											<p class="t20neg-escolha-linha">
+												<label>{{this.rotuloEscolha}}:</label>
+												{{#if this.escolha}}{{this.escolha}}{{else}}{{localize "T20NEG.NaoDefinido"}}{{/if}}
+											</p>
+										{{/if}}
+									</li>
+								{{/each}}
+							</ul>
+						</div>
+					{{/if}}
+
+					{{#if this.bloqueados.length}}
+						<div class="t20neg-grupo apagado">
+							<p class="t20neg-grupo-titulo">
+								<i class="fas fa-ban"></i>
+								<label>{{localize "T20NEG.BeneficiosBloqueados"}}</label>
+							</p>
+							<ul class="t20neg-beneficios">
+								{{#each this.bloqueados}}
+									<li><label>{{this.nome}}.</label> {{this.condicao}}</li>
+								{{/each}}
+							</ul>
+						</div>
+					{{/if}}
+				</div>
+			</li>
+		{{/each}}
+	</ul>
+
+	{{!-- Sem ninguém para adicionar, o rodapé inteiro sai de cena. --}}
+	{{#if podeDarAcesso}}
+		<footer class="t20neg-rodape t20neg-dar-acesso">
+			<select data-campo="novoBeneficiario">
+				<option value="">{{localize "T20NEG.EscolhaPersonagem"}}</option>
+				{{#each candidatos}}<option value="{{this.id}}">{{this.nome}}</option>{{/each}}
+			</select>
+			<button type="button" class="t20neg-acao t20neg-principal" data-action="adicionarBeneficiario">
+				<i class="fas fa-user-plus"></i> {{localize "T20NEG.BotaoDarAcesso"}}
+			</button>
+		</footer>
+	{{/if}}
+
+	<p class="t20neg-aviso"><i class="fas fa-circle-info noflex"></i> <span>{{avisoEstruturas}}</span></p>
+	<p class="t20neg-fonte">{{fonte}}</p>
+</div>

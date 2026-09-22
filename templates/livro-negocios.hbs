@@ -1,0 +1,101 @@
+<div class="t20neg-livro flexcol">
+
+	<ul class="item-list t20neg-bloco">
+		<li class="item flexrow item-header">
+			<div class="item-name flex2">{{localize "T20NEG.LivroTitulo"}}</div>
+			<div class="item-detail">{{localize "T20NEG.ContagemNegocios" total=negocios.length}}</div>
+			<div class="item-controls flexrow">
+				{{#if negocios.length}}
+					<a class="item-control" data-action="alternarTodos"
+					   data-tooltip="{{#if algumAberto}}{{localize "T20NEG.RecolherTodos"}}{{else}}{{localize "T20NEG.ExpandirTodos"}}{{/if}}">
+						<i class="fas {{#if algumAberto}}fa-compress-alt{{else}}fa-expand-alt{{/if}}"></i>
+					</a>
+				{{/if}}
+			</div>
+		</li>
+
+		{{#if vazio}}
+			<li class="item flexcol t20neg-nenhum">
+				<i class="fas fa-store-slash"></i>
+				<p><strong>{{localize "T20NEG.LivroVazio"}}</strong></p>
+				<p>{{localize "T20NEG.LivroVazioDica" custo=custo cd=cd}}</p>
+			</li>
+		{{/if}}
+
+		{{#each negocios}}
+			<li class="item flexrow t20neg-acordeon {{#if this.aberto}}aberto{{/if}}"
+			    data-negocio-id="{{this.id}}">
+
+				<div class="item-name flexrow flex2 t20neg-cabeca" data-action="alternarDetalhe"
+				     data-negocio-id="{{this.id}}">
+					<i class="fas fa-chevron-right t20neg-seta noflex"></i>
+					<div class="item-image noflex" style="background-image: url('{{this.img}}')"></div>
+					<label>{{this.nome}}</label>
+				</div>
+
+				<div class="item-detail t20neg-valor" data-tooltip="{{this.porte}}">
+					{{localize "T20NEG.NivelAbrev"}} {{this.nivel}}
+				</div>
+
+				<div class="item-controls flexrow">
+					<button type="button" class="t20neg-acao" data-action="abrir" data-negocio-id="{{this.id}}">
+						<i class="fas fa-up-right-from-square"></i> {{localize "T20NEG.BotaoAbrir"}}
+					</button>
+					{{#if ../ehMestre}}
+						<a class="item-control t20neg-excluir" data-action="excluir" data-negocio-id="{{this.id}}"
+						   data-tooltip="{{localize "T20NEG.BotaoExcluir"}}"><i class="fas fa-trash"></i></a>
+					{{/if}}
+				</div>
+
+				<div class="item-summary">
+					<dl class="t20neg-ficha-resumo">
+						<div>
+							<dt>{{localize "T20NEG.CampoProprietario"}}</dt>
+							<dd>{{this.proprietario}}</dd>
+						</div>
+						{{#if this.ramo}}
+							<div><dt>{{localize "T20NEG.CampoRamo"}}</dt><dd>{{this.ramo}}</dd></div>
+						{{/if}}
+						{{#if this.local}}
+							<div><dt>{{localize "T20NEG.CampoLocal"}}</dt><dd>{{this.local}}</dd></div>
+						{{/if}}
+						<div>
+							<dt>{{localize "T20NEG.Rendimento"}}</dt>
+							<dd>{{this.rendimento}}</dd>
+						</div>
+						<div>
+							<dt>{{localize "T20NEG.CampoCofre"}}</dt>
+							<dd>{{this.cofre}}</dd>
+						</div>
+						<div>
+							<dt>{{localize "T20NEG.AbaBeneficios"}}</dt>
+							<dd>{{localize "T20NEG.ContagemPessoas" total=this.beneficiarios}}</dd>
+						</div>
+					</dl>
+
+					<p class="t20neg-ativos-titulo">
+						<label>{{localize "T20NEG.SecaoAtivos"}}</label>
+						<span class="t20neg-apagado">{{this.ativos.length}}/{{this.slots}}</span>
+					</p>
+					{{#if this.ativos.length}}
+						<div class="t20neg-marcas">
+							{{#each this.ativos}}<span class="tag">{{this}}</span>{{/each}}
+						</div>
+					{{else}}
+						<p class="t20neg-apagado">{{localize "T20NEG.NenhumAtivoAinda"}}</p>
+					{{/if}}
+				</div>
+			</li>
+		{{/each}}
+	</ul>
+
+	{{#if podeFundar}}
+		<footer class="t20neg-rodape">
+			<button type="button" class="t20neg-acao t20neg-principal" data-action="fundar">
+				<i class="fas fa-hammer"></i> {{localize "T20NEG.BotaoFundar"}}
+			</button>
+		</footer>
+	{{/if}}
+
+	<p class="t20neg-fonte">{{fonte}}</p>
+</div>

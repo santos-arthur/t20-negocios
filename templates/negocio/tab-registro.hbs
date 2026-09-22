@@ -1,0 +1,73 @@
+<div class="tab registro flexcol {{#if ativa}}active{{/if}}" data-group="primary" data-tab="registro">
+
+	<ul class="attributes flexrow t20neg-balanco">
+		<li class="attribute flexcol">
+			<h4 class="attribute-name box-title">{{localize "T20NEG.TotalRecebido"}}</h4>
+			<div class="attribute-value t20neg-positivo">{{recebido}}</div>
+		</li>
+		<li class="attribute flexcol">
+			<h4 class="attribute-name box-title">{{localize "T20NEG.TotalInvestido"}}</h4>
+			<div class="attribute-value t20neg-negativo">{{investido}}</div>
+		</li>
+		<li class="attribute flexcol">
+			<h4 class="attribute-name box-title">{{localize "T20NEG.SaldoAcumulado"}}</h4>
+			<div class="attribute-value {{#if saldoPositivo}}t20neg-positivo{{else}}t20neg-negativo{{/if}}">
+				{{saldo}}
+			</div>
+		</li>
+	</ul>
+
+	<p class="t20neg-aviso"><i class="fas fa-circle-info noflex"></i>
+		<span>{{localize "T20NEG.BalancoNota"}}</span></p>
+
+	<ul class="item-list t20neg-bloco">
+		<li class="item flexrow item-header">
+			<div class="item-name flex2">{{localize "T20NEG.SecaoRegistro"}}</div>
+			<div class="item-detail">{{localize "T20NEG.ContagemEventos" total=total}}</div>
+			<div class="item-controls flexrow">
+				{{#if editavel}}
+					<a class="item-control" data-action="adicionarNota"
+					   data-tooltip="{{localize "T20NEG.BotaoAdicionarNota"}}"><i class="fas fa-feather"></i></a>
+					<a class="item-control t20neg-excluir" data-action="limparRegistro"
+					   data-tooltip="{{localize "T20NEG.BotaoLimparRegistro"}}"><i class="fas fa-eraser"></i></a>
+				{{/if}}
+			</div>
+		</li>
+
+		{{#if semRegistro}}
+			<li class="item flexcol t20neg-nenhum">
+				<i class="fas fa-scroll"></i>
+				<p><strong>{{localize "T20NEG.RegistroVazio"}}</strong></p>
+				<p>{{localize "T20NEG.RegistroVazioDica"}}</p>
+			</li>
+		{{/if}}
+
+		{{!-- Agrupado por dia: um negócio atravessa meses de campanha, e ver as
+		      sessões separadas ajuda a lembrar o que aconteceu em cada uma. --}}
+		{{#each dias}}
+			<li class="item flexrow item-header t20neg-sub t20neg-dia">
+				<span>{{this.data}}</span>
+				{{#if this.saldo}}<span class="t20neg-dia-saldo">{{this.saldo}}</span>{{/if}}
+			</li>
+
+			{{#each this.entradas}}
+				<li class="item flexrow t20neg-evento t20neg-evento-{{this.tipo}}">
+					<div class="item-name flexrow flex2">
+						<div class="item-image noflex"><i class="fas {{this.icone}}"></i></div>
+						<label>{{this.texto}}</label>
+					</div>
+					{{!-- O valor vem antes da hora, com largura reservada mesmo quando
+					      não há valor: assim as horas ficam alinhadas na coluna. --}}
+					<div class="item-detail t20neg-valor t20neg-valor-registro
+					            {{#if this.transferencia}}{{#if this.positivo}}t20neg-deposito{{else}}t20neg-saque{{/if}}{{else}}{{#if this.positivo}}t20neg-positivo{{/if}}{{#if this.negativo}}t20neg-negativo{{/if}}{{/if}}"
+					     {{#if this.transferencia}}data-tooltip="{{localize "T20NEG.TransferenciaDica"}}"{{/if}}>
+						{{this.valorFormatado}}
+					</div>
+					<div class="item-detail t20neg-hora">{{this.hora}}</div>
+				</li>
+			{{/each}}
+		{{/each}}
+	</ul>
+
+	<p class="t20neg-fonte">{{fonte}}</p>
+</div>

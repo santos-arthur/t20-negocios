@@ -1,0 +1,86 @@
+<div class="t20neg-form t20neg-fundacao">
+
+	<p class="t20neg-fundacao-intro">{{localize "T20NEG.FundarIntro"}}</p>
+
+	<ul class="t20neg-teste-alvo">
+		<li class="t20neg-alvo-item">
+			<span class="t20neg-alvo-rotulo">{{localize "T20NEG.ReqTempo"}}</span>
+			<span class="t20neg-alvo-valor">{{localize "T20NEG.UmMes" meses=meses}}</span>
+			<span class="t20neg-alvo-nota">{{localize "T20NEG.MesDeTrabalho"}}</span>
+		</li>
+		<li class="t20neg-alvo-item">
+			<span class="t20neg-alvo-rotulo">{{localize "T20NEG.ReqInvestimento"}}</span>
+			<span class="t20neg-alvo-valor">{{custo}}</span>
+			<span class="t20neg-alvo-nota">{{localize "T20NEG.MesmoSeFalhar"}}</span>
+		</li>
+		<li class="t20neg-alvo-item">
+			<span class="t20neg-alvo-rotulo">{{localize "T20NEG.CD"}}</span>
+			<span class="t20neg-alvo-valor">{{cd}}</span>
+			<span class="t20neg-alvo-nota">{{localize "T20NEG.OficioOuNobreza"}}</span>
+		</li>
+	</ul>
+
+	<div class="form-group">
+		<label>{{localize "T20NEG.CampoNome"}}</label>
+		<div class="form-fields">
+			<input type="text" name="nome" autofocus placeholder="{{localize "T20NEG.ExemploNome"}}" />
+		</div>
+	</div>
+
+	<div class="form-group">
+		<label>{{localize "T20NEG.CampoRamo"}}</label>
+		<div class="form-fields">
+			<input type="text" name="ramo" placeholder="{{localize "T20NEG.ExemploRamo"}}" />
+		</div>
+	</div>
+
+	<div class="form-group">
+		<label>{{localize "T20NEG.CampoLocal"}}</label>
+		<div class="form-fields">
+			<input type="text" name="local" placeholder="{{localize "T20NEG.ExemploLocal"}}" />
+		</div>
+	</div>
+
+	<hr />
+
+	{{#if temSistema}}
+		<div class="form-group">
+			<label>{{localize "T20NEG.CampoProprietario"}}</label>
+			<div class="form-fields">
+				<select name="actorId">
+					{{#if semProprietario}}
+						<option value="">{{localize "T20NEG.SemProprietario"}}</option>
+					{{/if}}
+					{{#each atores}}
+						<option value="{{this.id}}" {{#if this.selecionado}}selected{{/if}}>{{this.nome}}</option>
+					{{/each}}
+				</select>
+			</div>
+		</div>
+
+		<div class="form-group">
+			<label>{{localize "T20NEG.CampoPericia"}}</label>
+			<div class="form-fields">
+				<select name="pericia">
+					{{#each pericias}}
+						<option value="{{this.key}}" data-valor="{{this.valor}}"
+						        {{#if this.selecionado}}selected{{/if}}>{{this.label}}</option>
+					{{/each}}
+				</select>
+			</div>
+		</div>
+	{{else}}
+		<p class="hint">{{localize "T20NEG.AvisoSemSistema"}}</p>
+		<input type="hidden" name="actorId" value="" />
+		<input type="hidden" name="pericia" value="" />
+	{{/if}}
+
+	{{#if temSistema}}
+		<p class="hint">{{localize "T20NEG.RolagemPelaFicha"}}</p>
+	{{else}}
+		<div class="form-group">
+			<label>{{localize "T20NEG.CampoBonus"}}</label>
+			<div class="form-fields"><input type="number" name="bonus" value="0" /></div>
+		</div>
+	{{/if}}
+</div>

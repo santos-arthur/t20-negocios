@@ -1,0 +1,7 @@
+<nav class="sheet-tabs tabs" data-group="primary">
+	{{#each abas}}
+		<a class="item {{#if this.ativa}}active{{/if}}" data-action="trocarAba" data-tab="{{this.id}}">
+			{{this.label}}
+		</a>
+	{{/each}}
+</nav>

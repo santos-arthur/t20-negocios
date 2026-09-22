@@ -1,0 +1,72 @@
+<header class="sheet-header flexrow">
+	<img class="profile" src="{{negocio.img}}" title="{{negocio.name}}" data-edit="img"
+	     {{#if editavel}}data-action="editImage"{{/if}} />
+
+	{{!-- Esta coluna tem exatamente a altura da imagem: nome, números e
+	      identificação dividem o espaço entre si. --}}
+	<section class="header-details flexcol">
+		<div class="general-information flexrow">
+			<h1 class="charname">
+				<input name="name" type="text" value="{{negocio.name}}"
+				       placeholder="{{localize "T20NEG.ExemploNome"}}" {{#unless editavel}}disabled{{/unless}} />
+			</h1>
+		</div>
+
+		<ul class="attributes flexrow">
+			<li class="attribute flexcol">
+				<h4 class="attribute-name box-title">{{localize "T20NEG.CampoNivel"}}</h4>
+				{{!-- O Mestre ajusta o nível à mão; para os demais é só leitura,
+				      porque subir de nível é o teste da aba Crescimento. --}}
+				<div class="attribute-value" data-tooltip="{{#if ehMestre}}{{localize "T20NEG.NivelDoMestreDica"}}{{else}}{{porte}}{{/if}}">
+					{{#if ehMestre}}
+						<input type="number" name="system.nivel" value="{{sistema.nivel}}" data-dtype="Number"
+						       min="1" max="{{sistema.nivelMaximo}}" step="1" class="t20neg-nivel-editavel" />
+					{{else}}
+						{{sistema.nivel}}
+					{{/if}}
+				</div>
+			</li>
+
+			<li class="attribute flexcol">
+				<h4 class="attribute-name box-title">{{localize "T20NEG.AtivosContratados"}}</h4>
+				<div class="attribute-value">{{usados}}<span class="sep">/</span>{{slots}}</div>
+			</li>
+
+			<li class="attribute flexcol">
+				<h4 class="attribute-name box-title">{{localize "T20NEG.Rendimento"}}</h4>
+				<div class="attribute-value">{{rendimento}}</div>
+			</li>
+
+			<li class="attribute flexcol">
+				<h4 class="attribute-name box-title">{{localize "T20NEG.CampoCofre"}}</h4>
+				<div class="attribute-value t20neg-cofre">
+					<span class="t20neg-moeda">T$</span>
+					<input type="number" name="system.cofre" value="{{sistema.cofre}}" data-dtype="Number"
+					       {{#unless editavel}}disabled{{/unless}} />
+				</div>
+			</li>
+		</ul>
+
+		<ul class="attributes summary flexrow">
+			<li>
+				<label class="t20neg-rotulo">{{localize "T20NEG.CampoRamo"}}</label>
+				<input name="system.ramo" type="text" value="{{sistema.ramo}}"
+				       placeholder="{{localize "T20NEG.ExemploRamo"}}" {{#unless editavel}}disabled{{/unless}} />
+			</li>
+			<li>
+				<label class="t20neg-rotulo">{{localize "T20NEG.CampoLocal"}}</label>
+				<input name="system.local" type="text" value="{{sistema.local}}"
+				       placeholder="{{localize "T20NEG.ExemploLocal"}}" {{#unless editavel}}disabled{{/unless}} />
+			</li>
+			<li>
+				<label class="t20neg-rotulo">{{localize "T20NEG.CampoProprietario"}}</label>
+				<select name="system.proprietario" {{#unless editavel}}disabled{{/unless}}>
+					<option value="">{{localize "T20NEG.SemProprietario"}}</option>
+					{{#each proprietariosPossiveis}}
+						<option value="{{this.id}}" {{#if this.selecionado}}selected{{/if}}>{{this.nome}}</option>
+					{{/each}}
+				</select>
+			</li>
+		</ul>
+	</section>
+</header>

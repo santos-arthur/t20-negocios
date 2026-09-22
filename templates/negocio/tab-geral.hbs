@@ -1,0 +1,200 @@
+<div class="tab geral flexcol {{#if ativa}}active{{/if}}" data-group="primary" data-tab="geral">
+
+	{{!-- Crescimento: onde o negócio está e o que custa dar o próximo passo. --}}
+	<ul class="item-list t20neg-bloco">
+		<li class="item flexrow item-header flex-center">{{localize "T20NEG.SecaoCrescimento"}}</li>
+
+		<li class="item flexcol t20neg-progresso">
+			<div class="t20neg-progresso-topo flexrow">
+				<label>{{localize "T20NEG.NivelDeMaximo" nivel=sistema.nivel maximo=sistema.nivelMaximo}}</label>
+				<span class="t20neg-porte">{{porte}}</span>
+				{{#if ehMestre}}
+					<span class="t20neg-ajuste" data-tooltip="{{localize "T20NEG.NivelDoMestreDica"}}">
+						<a class="item-control" data-action="ajustarNivel" data-delta="-1"><i class="fas fa-minus"></i></a>
+						<a class="item-control" data-action="ajustarNivel" data-delta="1"><i class="fas fa-plus"></i></a>
+					</span>
+				{{/if}}
+			</div>
+			<div class="t20neg-trilha">
+				{{#each niveis}}
+					<span class="t20neg-degrau {{#if this.preenchido}}cheio{{/if}}"
+					      data-tooltip="{{localize "T20NEG.NivelAbrev"}} {{this.numero}}"></span>
+				{{/each}}
+			</div>
+		</li>
+
+		{{#if podeExpandir}}
+			<li class="item flexrow item-header t20neg-sub">
+				{{localize "T20NEG.ParaChegarAoNivel" nivel=proximoNivel}}
+			</li>
+
+			<li class="item flexrow t20neg-requisito">
+				<div class="item-name flex2"><label>{{localize "T20NEG.ReqTeste"}}</label></div>
+				<div class="item-detail t20neg-valor">{{localize "T20NEG.CD"}} {{cdExpansao}}</div>
+			</li>
+			<li class="item flexrow t20neg-requisito">
+				<div class="item-name flex2"><label>{{localize "T20NEG.ReqInvestimento"}}</label></div>
+				<div class="item-detail t20neg-valor">{{custoExpansao}}</div>
+			</li>
+			<li class="item flexrow t20neg-requisito">
+				<div class="item-name flex2"><label>{{localize "T20NEG.ReqTempo"}}</label></div>
+				<div class="item-detail t20neg-valor">{{localize "T20NEG.UmMes" meses=mesesDeTrabalho}}</div>
+			</li>
+			<li class="item flexrow t20neg-requisito">
+				<div class="item-name flex2"><label>{{localize "T20NEG.ReqGanho"}}</label></div>
+				<div class="item-detail t20neg-valor">{{localize "T20NEG.MaisUmAtivo"}}</div>
+			</li>
+
+			{{#if temDesconto}}
+				<li class="item flexrow t20neg-requisito">
+					<div class="item-name flex2"><label>{{localize "T20NEG.ReqDescontos"}}</label></div>
+					<div class="item-detail t20neg-descontos">
+						{{#if temEstudio}}<span class="tag ativo">{{localize "T20NEG.DescontoEstudio"}}</span>{{/if}}
+						{{#if temEscritorio}}<span class="tag ativo">{{localize "T20NEG.DescontoEscritorio"}}</span>{{/if}}
+					</div>
+				</li>
+			{{/if}}
+
+			<li class="item flexrow t20neg-aviso-linha">
+				<i class="fas fa-triangle-exclamation noflex"></i>
+				<span>{{localize "T20NEG.FalharConsome"}}</span>
+			</li>
+		{{else}}
+			<li class="item flexrow t20neg-aviso-linha">
+				<i class="fas fa-crown noflex"></i>
+				<span>{{localize "T20NEG.NivelMaximoAtingido" nivel=sistema.nivel}}</span>
+			</li>
+		{{/if}}
+	</ul>
+
+	{{#if podeExpandir}}
+		<footer class="t20neg-rodape">
+			<button type="button" class="t20neg-acao t20neg-principal" data-action="expandir"
+			        {{#unless editavel}}disabled{{/unless}}>
+				<i class="fas fa-arrow-up"></i>
+				{{localize "T20NEG.BotaoExpandirPara" nivel=proximoNivel}}
+			</button>
+		</footer>
+	{{/if}}
+
+	{{!-- Rendimento: as duas maneiras de apurar, cada uma com seu botão. --}}
+	<ul class="item-list t20neg-bloco">
+		<li class="item flexrow item-header flex-center">{{localize "T20NEG.SecaoRendimento"}}</li>
+
+		<li class="item flexrow t20neg-opcao">
+			<div class="item-name flex2">
+				<label>{{localize "T20NEG.OpcaoSemDedicacao"}}</label>
+				<p class="t20neg-explicacao">{{localize "T20NEG.OpcaoSemDedicacaoNota"}}</p>
+			</div>
+			<div class="item-detail t20neg-valor t20neg-destaque">{{rendimentoBase}}</div>
+			<div class="item-controls flexrow">
+				<button type="button" class="t20neg-acao" data-action="renderBase"
+				        {{#unless editavel}}disabled{{/unless}}>
+					<i class="fas fa-hand-holding-dollar"></i> {{localize "T20NEG.BotaoReceber"}}
+				</button>
+			</div>
+		</li>
+
+		<li class="item flexrow t20neg-opcao">
+			<div class="item-name flex2">
+				<label>{{localize "T20NEG.OpcaoComDedicacao"}}</label>
+				<p class="t20neg-explicacao">{{localize "T20NEG.OpcaoComDedicacaoNota" fator=fatorDedicado nivel=sistema.nivel}}</p>
+			</div>
+			<div class="item-detail t20neg-valor"
+			     data-tooltip="{{localize "T20NEG.FaixaComBonus" bonus=bonusDaFaixa}}">
+				{{rendimentoDedicadoMin}} – {{rendimentoDedicadoMax}}
+			</div>
+			<div class="item-controls flexrow">
+				<button type="button" class="t20neg-acao" data-action="renderDedicado"
+				        {{#unless editavel}}disabled{{/unless}}>
+					<i class="fas fa-hammer"></i> {{localize "T20NEG.BotaoDedicarMes"}}
+				</button>
+			</div>
+		</li>
+
+		<li class="item flexrow t20neg-opcao t20neg-cofre-linha">
+			<div class="item-name flex2">
+				<label>{{localize "T20NEG.CampoCofre"}}</label>
+				<p class="t20neg-explicacao">{{localize "T20NEG.CofreNota"}}</p>
+			</div>
+			<div class="item-detail t20neg-valor t20neg-destaque">{{cofre}}</div>
+			<div class="item-controls flexrow">
+				<button type="button" class="t20neg-acao" data-action="guardar"
+				        {{#unless editavel}}disabled{{/unless}}>
+					<i class="fas fa-vault"></i> {{localize "T20NEG.BotaoGuardar"}}
+				</button>
+				<button type="button" class="t20neg-acao" data-action="sacar"
+				        {{#unless editavel}}disabled{{/unless}}>
+					<i class="fas fa-sack-dollar"></i> {{localize "T20NEG.BotaoSacar"}}
+				</button>
+			</div>
+		</li>
+	</ul>
+
+	{{#if temUsoProprio}}
+		<ul class="item-list t20neg-bloco">
+			<li class="item flexrow item-header flex-center">{{localize "T20NEG.SecaoUsoProprio"}}</li>
+
+			{{#if temCassino}}
+				<li class="item flexrow t20neg-opcao">
+					<div class="item-name flex2">
+						<label>{{localize "T20NEG.AtivoCassinoNome"}}</label>
+						<p class="t20neg-explicacao">{{localize "T20NEG.CassinoNota" ganho=cassinoGanho perda=cassinoPerda}}</p>
+					</div>
+					<div class="item-detail t20neg-valor">
+						{{#if dividaCassino}}
+							<span class="t20neg-negativo" data-tooltip="{{localize "T20NEG.DividaCassino"}}">{{dividaCassino}}</span>
+						{{else}}
+							<span class="t20neg-apagado">{{localize "T20NEG.SemDivida"}}</span>
+						{{/if}}
+					</div>
+					<div class="item-controls flexrow">
+						<button type="button" class="t20neg-acao" data-action="girarCassino"
+						        {{#unless podeGirarCassino}}disabled{{/unless}}>
+							<i class="fas fa-dice"></i>
+							{{#if cassinoDisponivel}}{{localize "T20NEG.BotaoGirarCassino"}}{{else}}{{localize "T20NEG.CassinoJaUsado"}}{{/if}}
+						</button>
+					</div>
+				</li>
+			{{/if}}
+
+			{{#if temMercado}}
+				<li class="item flexrow t20neg-opcao">
+					<div class="item-name flex2">
+						<label>{{localize "T20NEG.AtivoMercadoNome"}}</label>
+						<p class="t20neg-explicacao">{{localize "T20NEG.MercadoNota" mult=multiplicadorMercado}}</p>
+					</div>
+					<div class="item-detail t20neg-contador">
+						<a class="item-control" data-action="ajustarNpcs" data-delta="-1"
+						   data-tooltip="{{localize "T20NEG.MenosUmNpc"}}"><i class="fas fa-minus"></i></a>
+						<span>{{npcsRecrutados}}</span>
+						<a class="item-control" data-action="ajustarNpcs" data-delta="1"
+						   data-tooltip="{{localize "T20NEG.MaisUmNpc"}}"><i class="fas fa-plus"></i></a>
+					</div>
+					<div class="item-detail t20neg-valor t20neg-destaque">{{ganhoMercado}}</div>
+					<div class="item-controls flexrow">
+						<button type="button" class="t20neg-acao" data-action="apurarMercado"
+						        {{#unless editavel}}disabled{{/unless}}>
+							<i class="fas fa-hand-holding-dollar"></i> {{localize "T20NEG.BotaoReceber"}}
+						</button>
+					</div>
+				</li>
+			{{/if}}
+		</ul>
+
+		<footer class="t20neg-rodape">
+			<button type="button" class="t20neg-acao" data-action="renovarAventura"
+			        {{#unless editavel}}disabled{{/unless}}>
+				<i class="fas fa-rotate-right"></i> {{localize "T20NEG.BotaoRenovarAventura"}}
+			</button>
+		</footer>
+	{{/if}}
+
+	<div class="t20neg-anotacoes">
+		<h4 class="box-title">{{localize "T20NEG.SecaoNotas"}}</h4>
+		<textarea name="system.notas" rows="3" placeholder="{{localize "T20NEG.NotasPlaceholder"}}"
+		          {{#unless editavel}}disabled{{/unless}}>{{sistema.notas}}</textarea>
+	</div>
+
+	<p class="t20neg-fonte">{{fonte}}</p>
+</div>
