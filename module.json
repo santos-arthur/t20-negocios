@@ -1,7 +1,7 @@
 {
   "id": "t20-negocios",
   "title": "Negócios — Tormenta 20",
-  "description": "Implementa as regras de Negócios para Tormenta 20: criação, expansão em níveis, catálogo completo de ativos, rendimentos e aplicação automática dos benefícios nos personagens com acesso. Regras de Jornada Heroica - Fim dos Tempos Arco 2: Valkaria.",
+  "description": "Implementa as regras de Negócios para Tormenta 20: criação, expansão em níveis, catálogo completo de ativos, rendimentos e aplicação automática dos benefícios nos personagens com acesso. Regras da Jambô Editora, publicadas em Jornada Heroica - Fim dos Tempos Arco 2: Valkaria. Módulo não oficial.",
   "version": "0.1.0",
   "authors": [
     {

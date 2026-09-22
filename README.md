@@ -1,37 +1,46 @@
 # Negócios — Tormenta 20
 
 Um módulo para **Foundry VTT** que põe em jogo as regras de negócios de
-Tormenta 20. O herói funda uma taverna, uma forja, uma botica; o negócio cresce
-em níveis, contrata ativos, rende tibares — e quem frequenta o lugar leva os
-benefícios para a própria ficha, sem ninguém ter que lembrar de somar nada.
+**Tormenta 20**. O herói funda uma taverna, uma forja, uma botica; o negócio
+cresce em níveis, contrata ativos, rende tibares — e quem frequenta o lugar leva
+os benefícios para a própria ficha, sem ninguém ter que lembrar de somar nada.
 
-As regras vêm de **Jornada Heroica - Fim dos Tempos Arco 2: Valkaria**.
+As regras de negócios são da [**Jambô Editora**](https://jamboeditora.com.br) e
+foram publicadas em **Jornada Heroica - Fim dos Tempos Arco 2: Valkaria**. Este
+módulo não traz o texto do livro — só as põe para rodar. Para entender o sistema
+por completo, adquira o livro na [loja da Jambô](https://jamboeditora.com.br).
 
-Projeto pessoal de **Arthur Santos**, escrito para a mesa dele e liberado para
-quem quiser usar.
+> Módulo **não oficial**, feito por fã, sem vínculo com a Jambô Editora.
+> Tormenta 20 é marca da Jambô Editora.
 
 ---
 
-## Por que existe
+## O que o módulo faz
 
-As regras de negócios são boas e quase nunca entram em jogo, por um motivo
-administrativo: são 45 ativos, cada um com um bônus e uma condição. O jogador
-contrata uma Botica, anota num canto da ficha, e três sessões depois ninguém
-lembra que ele tem +1 em Fortitude. O negócio vira um número no papel.
-
-O módulo faz a parte chata — as contas, o catálogo, os bônus — e deixa a parte
-boa: decidir se vale gastar um mês no balcão, o que contratar com a vaga nova, o
-que fazer quando a guilda dos ladrões bate na porta.
+- **Ficha própria para o negócio**, com as abas Visão geral, Ativos, Benefícios
+  e Registro.
+- **Fundação e expansão em níveis**, com custo, CD e prazo calculados — já
+  corrigidos pelo Estúdio e pelo Escritório.
+- **Catálogo completo dos 45 ativos**, com bônus e condições de cada um.
+- **Rendimentos** com ou sem mês dedicado, direto para o cofre do negócio.
+- **Benefícios aplicados nos personagens com acesso**: os bônus aparecem na
+  ficha e no diálogo de rolagem, com o nome do negócio de onde vieram.
+- **Permissões por proprietário**: o jogador dono administra o próprio negócio,
+  sem depender do mestre.
 
 ---
 
 ## O princípio: o negócio não é um bônus permanente
 
-Um personagem com a Botica não tem +1 em Fortitude. Ele tem acesso a uma botica
-**enquanto frequenta o negócio**.
+As regras de negócios são boas e quase nunca entram em jogo, por um motivo
+administrativo: são 45 ativos, cada um com um bônus e uma condição. O jogador
+contrata uma Botica, anota num canto da ficha, e três sessões depois ninguém
+lembra que ele tem +1 em Fortitude.
 
-Por isso os bônus de perícia e de ataque não entram somados na ficha: aparecem
-**no diálogo de rolagem**, já marcados, com o nome do negócio de onde vieram.
+Só que um personagem com a Botica não tem +1 em Fortitude. Ele tem acesso a uma
+botica **enquanto frequenta o negócio**. Por isso os bônus de perícia e de
+ataque não entram somados na ficha: aparecem **no diálogo de rolagem**, já
+marcados, com o nome do negócio.
 
 ```
   Teste de Fortitude
@@ -62,23 +71,19 @@ e as janelas vestem o estilo dele.
 
 ## Instalação
 
-No Foundry, vá em **Configurações → Gerenciar Módulos → Instalar Módulo** e cole
-a URL do manifesto:
+No Foundry, vá em **Configurações → Gerenciar Módulos → Instalar Módulo** e
+procure por **Negócios — Tormenta 20**, ou cole a URL do manifesto:
 
 ```
 https://github.com/santos-arthur/t20-negocios/releases/latest/download/module.json
 ```
-
-Depois ative o módulo no mundo, em **Configurações do Mundo → Gerenciar
-Módulos**. Toda vez que ele for atualizado, **dê F5**.
 
 ---
 
 ## Usando
 
 A janela **Negócios** abre pelo botão no topo do diretório de Atores ou pela
-ferramenta de notas na barra do mapa. Cada negócio é um Actor de tipo próprio,
-com quatro abas: **Visão geral**, **Ativos**, **Benefícios** e **Registro**.
+ferramenta de notas na barra do mapa. Cada negócio é um Actor de tipo próprio.
 
 ### Fundando e crescendo
 
@@ -140,12 +145,21 @@ módulo não adivinha.
 | O jogador não consegue mexer no negócio | Ele não é o proprietário. Defina-o no cabeçalho da ficha |
 | A opção do ativo não aparece na rolagem | O teste precisa ser rolado **pela ficha**; um `/r` no chat não enxerga os efeitos |
 | O botão de expandir sumiu | O negócio chegou ao nível máximo configurado no mundo |
-| A ficha abre sem nada | Dê F5. Se persistir, rode `docs/diagnostico.js` no console (F12) |
+| A ficha abre sem nada | Dê F5. Se persistir, rode o [script de diagnóstico](https://github.com/santos-arthur/t20-negocios/blob/main/docs/diagnostico.js) no console (F12) |
+
+Encontrou um bug? Abra uma [issue no GitHub](https://github.com/santos-arthur/t20-negocios/issues).
 
 ---
 
-## Licença
+## Créditos e licença
 
-[MIT](LICENSE). As regras de negócios são de **Jornada Heroica - Fim dos Tempos
-Arco 2: Valkaria** e pertencem a quem as escreveu; este módulo só as põe para
-rodar.
+- **Regras de negócios:** [Jambô Editora](https://jamboeditora.com.br), em
+  *Jornada Heroica - Fim dos Tempos Arco 2: Valkaria*. Todos os direitos sobre
+  as regras e sobre Tormenta 20 pertencem à Jambô.
+- **Sistema Tormenta20 para Foundry:** [vizael e colaboradores](https://gitlab.com/vizael/Tormenta20).
+- **Módulo:** Arthur Santos — projeto pessoal, escrito para a própria mesa e
+  liberado para quem quiser usar.
+
+O código do módulo está sob a licença
+[MIT](https://github.com/santos-arthur/t20-negocios/blob/main/LICENSE). A
+licença cobre apenas o código, não as regras nem a marca Tormenta 20.
